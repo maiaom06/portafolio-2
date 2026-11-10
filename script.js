@@ -1,0 +1,12 @@
+const menuButton=document.querySelector('.menu-toggle');
+const nav=document.querySelector('.main-nav');
+menuButton.addEventListener('click',()=>{const open=nav.classList.toggle('open');menuButton.setAttribute('aria-expanded',String(open));menuButton.setAttribute('aria-label',open?'Cerrar menú':'Abrir menú')});
+nav.querySelectorAll('a').forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('open');menuButton.setAttribute('aria-expanded','false')}));
+const filters=document.querySelectorAll('.filter');
+const cards=document.querySelectorAll('.project-card');
+filters.forEach(button=>button.addEventListener('click',()=>{filters.forEach(item=>item.classList.remove('active'));button.classList.add('active');const chosen=button.dataset.filter;cards.forEach(card=>{card.hidden=chosen!=='all'&&card.dataset.category!==chosen})}));
+const observer=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');observer.unobserve(entry.target)}}),{threshold:.12});
+document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+const progress=document.querySelector('.scroll-progress');
+window.addEventListener('scroll',()=>{const max=document.documentElement.scrollHeight-window.innerHeight;progress.style.width=(max>0?window.scrollY/max*100:0)+'%'},{passive:true});
+document.getElementById('year').textContent=new Date().getFullYear();
